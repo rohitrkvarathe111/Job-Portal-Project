@@ -1,0 +1,288 @@
+dashboard.views.py
+
+def proxy(request):
+    if request.user.is_applicant:
+        return redirect('applicant-dashboard')
+    elif request.user.is_recruiter:
+        return redirect('recruiter-dashboard')
+    else:
+        return redirect('login')
+
+def applicant_dashboard(request):
+    return render('dashboard/applicant_dashboard.html')
+
+def recruiter_dashboard(request):
+    return render(request, 'dashboard/recruiter_dashboard.html')
+
++===================================================================================+
+user.views.py
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from .models import User
+from .form import RegisterUserForm
+from resume.models import Resume
+from company.models import Company
+
+# Create your views here.
+def register_applicant(request):
+    if request.method == 'POST':
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            var = form.save(commit=False)
+            var.is_applicant = True
+            var.username = var.email
+            var.save()
+
+            Resume.objects.create(user=var)
+            messages.info(request, 'Your account has been created')
+            return redirect('login')
+        else:
+            messages.warning(request, 'Something went worng')
+            return redirect('register-applicant')
+    else:
+        form = RegisterUserForm()
+        context = {'form':form}
+        return render(request, 'user/register_applicant.html', context)
+
+
+# register job poster
+def register_recruiter(request):
+    if request.method == 'POST':
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            var = form.save(commit=False)
+            var.is_recruiter = True
+            var.username = var.email
+            var.save()
+
+            Company.objects.create(user=var)
+            messages.info(request, 'Your account has been created')
+            return redirect('login')
+        else:
+            messages.warning(request, 'Something went worng')
+            return redirect('register-recruiter')
+    else:
+        form = RegisterUserForm()
+        context = {'form':form}
+        return render(request, 'user/register_recruiter.html', context)
+
+  
+# user log in
+def login_user(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, pasword=password)
+
+        if user is not None and user.is_active:
+            login(request, user)
+            if request.user.is_applicant:
+                return redirect('applicant-dashboard')
+            elif request.user.is_recruiter:
+                return redirect('recruiter-dashboard')
+            else:
+                return redirect('login')
+        else:
+            messages.warning(request, 'sonething wnet wrong')
+            return redirect('login')
+    else:
+        return render(request, 'user/login.html')
+    
+
+# user logout
+def logout_user(request):
+    logout(request)
+    messages.info(request, 'your session has ended')
+    return redirect('login')
+
+===============================================================================
+company views.py
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Company
+from users.models import User
+from .form import UpdateCompanyForm
+
+
+# Create your Company views here.
+
+def update_company(request):
+    company = Company.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = UpdateCompanyForm(request.POST, instance=company)
+        if form.is_valid():
+            var = form.save(commit=False)
+            user = User.objects.get(id=request.user)
+            user.has_company = True
+            var.save()
+            user.save()
+            messages.info(request, 'company is now active, you can creating job')
+            return redirect('dashboard')
+        else:
+            messages.warning(request, 'something went wrong')
+    else:
+        form = UpdateCompanyForm(instance=company)
+        context = {'form': form}
+        return render(request, 'company/update_company.html', context)
+
+ 
+# company detail
+def company_details(request, pk):
+    company = Company.objects.get(pk=pk)
+    context = {'company':company}
+    return render(request, 'company/company_details.html', context)
+
+
+
+
+
+
+
+
+<section>
+  <img src="../static/img/cover5.png" alt="Description of the image" style="width: 100%; height: 180px;">
+    <div class="p-5 mb-4 bg-light rounded-3">
+      
+
+      <div class="container-fluid py-5">
+
+       
+        <div class="card">
+          <div class="card-body">
+            <form class="row gy-2 gx-3 align-items-center" method="GET">
+              <div class="col-sm-2">
+                <label for="autoSizingInput">Name</label>
+                {% render_field filter.form.title class="form-control" id="autoSizingInput" placeholder="Job Keyword" %}
+
+              </div>
+              <div class="col-sm-3">
+                <label for="autoSizingSelectLocation">Select Location</label>
+                {% render_field filter.form.state class="form-select" %}
+              </div>
+              <div class="col-sm-3">
+                <label for="autoSizingSelectJobType">Choose Job Type</label>
+                {% render_field filter.form.job_type class="form-select" %}
+              </div>
+              <div class="col-sm-3">
+                <label for="autoSizingSelectIndustry">Select Industry</label>
+                {% render_field filter.form.industry class="form-select" %}
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <br>
+      
+        <a href="{% url 'job-listing' %}" class="btn btn-outline-primary" type="button">Go to Joblisting</a>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+'''
+def job_details(request, pk):
+    if ApplyJob.objects.filter(user=request.user, job=pk).exists():
+        has_applied = True
+    else:
+        has_applied = False
+
+    job = Job.objects.get(pk=pk)
+    context = {'job':job, 'has_applied':has_applied}
+    return render(request, 'website/job_details.html', context)
+
+'''
+
+
+
+
+ <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 mb-3">Welcome to Job portal</h1>
+                <p class="col-lg-10 fs-4">Don't miss the perfect opportunity! Receive instant notifications when new jobs matching your criteria are posted.</p>
+                <p class="col-lg-10 fs-4">Signing up is quick, easy, and completely free. Take control of your career trajectory and let YourPath Careers guide you to success. Your dream job is just a click away!.</p>
+                <p class="col-lg-10 fs-4">Go Back To <a href="{% url 'home' %}">Home</a></p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}}" role="alert">
+                    <b>{{message}}</b>
+                  </div>
+                  {% endfor %}
+                  {% endif %}
+                {% block content %}
+                {% endblock content %}
+                
+            </div>
+        </div>
+    </div>
+
+
+<section>
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <h2 class="display-5 fw-bold">{{job.title}}</h2>
+        <p class="col-md-8 fs-5 mt-3">
+          {{job.city}}, {{job.state}} | INR {{job.salary|intcomma}}
+        </p>
+        {% if has_applied == False %}
+        <a href="{% url 'apply-job' job.pk %}" class="btn btn-primary btn-lg">Apply Now</a>
+        {% else %}
+        <p><span class="text-danger">You are already applied for this job</span></p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  
+  <div>
+    <section>
+        <h5> job Requirement </h5>
+        <p>{{job.requirements}}
+        </p>
+    </section>
+</div>
+<br>
+<div>
+    <section>
+        <h5> Ideal Candidate</h5>
+        <p>{{job.ideal_candidate}}
+        </p>
+    </section>
+</div>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

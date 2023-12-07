@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+
+<div class="card mx-auto" style="width: 76rem;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+      <h5 class="card-title mb-3">All Applications for {{job.title}} </h5>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">Job Possition/Title</th>
+            <th scope="col">Application Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in applicants %}
+          <tr>
+            <td>{{app.user.resume.first_name}}</td>
+            <td>{{app.user.resume.last_name}}</td>
+            <td>{{app.user.resume.location}}</td>
+            <td>{{app.user.resume.job_title}}</td>
+            <td>{{app.timestamp}}</td>
+            
+            <td><a target="_blank" href="{{app.user.resume.upload_resume.url}}"><small>Resume</small></a></td>
+          </tr>
+          {% endfor %}
+         
+        </tbody>
+      </table>
+      
+      <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    </div>
+  </div>
+  <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+  
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mx-auto" style="width: 40rem;">
+            <!-- <img src="..." class="card-img-top" alt="..."> -->
+            <div class="card-body">
+                <h5 class="card-title mb-3">Update Job</h5>
+                <form method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Job Title</label>
+                        {% render_field form.title class="form-control" %}
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Salary</label>
+                        {% render_field form.salary class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">City</label>
+                        {% render_field form.city class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">State</label>
+                        {% render_field form.state class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Industry</label>
+                        {% render_field form.industry class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Job Type</label>
+                        {% render_field form.job_type class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Job Requirements</label>
+                        {% render_field form.requirements|attr:"rows:3" class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Ideal Candidate</label>
+                        {% render_field form.ideal_candidate|attr:"rows:2" class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Is this Job Available</label>
+                        {% render_field form.is_available class="form-check-input" %}
+                        
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <!-- <p class="card-text">Some quick example text to build on the card title and make up the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+

@@ -1,0 +1,52 @@
+
+
+
+
+
+
+
+
+
+
+
+
+.card.border-primary.mb-3 {
+    border: 5px solid #007bff; 
+    background-color: #e7f0f9;
+}
+
+
+
+
+.footer {
+    width: 100%;
+}
+
+
+
+
+
+.bold1 {
+    color: black;
+    font-weight: bold;
+}
+
+.custom-class1 {
+    padding: 1.25rem; /* Equivalent to 5px */
+    margin-bottom: 1rem; /* Equivalent to 4px */
+    background-color: #e0f7fa; /* Light blue color */
+    border-radius: 0.375rem; /* Equivalent to 3px */
+}
+
+
+/* 
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------*/
+

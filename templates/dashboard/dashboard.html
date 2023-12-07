@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content  %}
+
+
+{% if request.user.is_applicant %}
+{% if not request.user.has_resume %}
+<div class="alert alert-danger" role="alert">
+    <b>You are seeing this becuse you have not create any resume , create now  
+        <a href="{% url 'update-resume' %}">Here </a>
+
+    </b>
+  </div>
+  {% endif %}
+
+<section >
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <div class="card text-center">
+                <div class="card-header h5 text-white bg-primary">{{request.user.email}}</div>
+            <h1 class="display-5 fw-bold">Welcome to job portal </h1>
+            <p class="col-md-8 fs-4">Go To
+                <a href="{% url 'home' %}"> Home </a>
+            </p>
+
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+{% elif request.user.is_recruiter %}
+
+{% if not request.user.has_company %}
+<div class="alert alert-danger" role="alert">
+    <b>You are seeing this becuse you have not create any company , create now  
+        <a href="{% url 'update-company' %}">Here </a>
+
+    </b>
+  </div>
+  {% endif %}
+
+
+<section >
+    
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <div class="card text-center">
+                <div class="card-header h5 text-white bg-primary">{{request.user.email}}</div>
+            <h1 class="display-5 fw-bold">Welcome to Job portal </h1>
+            <p class="col-md-8 fs-4">
+                Go To
+                <a href="{% url 'home' %}"> Home </a> 
+            </p>
+
+        </div>
+    </div>
+</section>
+<br>
+    <br>
+    <br>
+    <br>
+
+{% endif %}
+
+
+{% if user.is_authenticated and user.is_staff %}
+<section >
+    
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <div class="card text-center">
+                <div class="card-header h5 text-white bg-primary">{{request.user.email}}</div>
+            <h1 class="display-5 fw-bold">Welcome to Job portal </h1>
+            <p class="col-md-8 fs-4">
+                <a href="{% url 'admin-view' %}">Admin Dashboard </a>
+            </p>
+
+        </div>
+    </div>
+</section>
+
+{% endif %}
+
+
+
+{% endblock content  %}
+
+
+

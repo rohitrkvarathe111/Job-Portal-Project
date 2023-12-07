@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mx-auto" style="width: 40rem;">
+            <!-- <img src="..." class="card-img-top" alt="..."> -->
+            <div class="card-body">
+                <h5 class="card-title mb-3">Create A Company</h5>
+                <form method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Company Name</label>
+                        {% render_field form.name class="form-control" %}
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Corporate Identification Number (CIN)</label>
+                        {% render_field form.est_date class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">City</label>
+                        {% render_field form.city class="form-control" %}
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">State</label>
+                        {% render_field form.state class="form-control" %}
+                        
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <!-- <p class="card-text">Some quick example text to build on the card title and make up the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+

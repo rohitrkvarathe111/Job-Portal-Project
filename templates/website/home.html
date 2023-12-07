@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+
+<br>
+<br>
+
+<section>
+  <div class="container-xxl py-5 bg-dark page-header mb-5">
+    <div class="container my-5 pt-5 pb-2">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Welcome to Job Searching Page</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-uppercase">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+               
+            
+            </ol>
+        </nav>
+    </div>
+    <form class="row gy-2 gx-3 align-items-center" method="GET">
+      <div class="col-sm-2">
+        <label for="autoSizingInput" style="color: white;">Name</label>
+        {% render_field filter.form.title class="form-control" id="autoSizingInput" placeholder="Job Keyword" %}
+
+      </div>
+      <div class="col-sm-3">
+        <label for="autoSizingSelectLocation" style="color: white;">Select Location</label>
+        {% render_field filter.form.state class="form-select" %}
+      </div>
+      <div class="col-sm-3">
+        <label for="autoSizingSelectJobType" style="color: white;">Choose Job Type</label>
+        {% render_field filter.form.job_type class="form-select" %}
+      </div>
+      <div class="col-sm-3">
+        <label for="autoSizingSelectIndustry" style="color: white;">Select Industry</label>
+        {% render_field filter.form.industry class="form-select" %}
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+    
+  </div>  
+  </section>
+  <!-- <div class="container">-->
+ <!--
+    
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for job in filter.qs %}
+      <div class="col">
+       
+        <div class="card border-primary mb-3">
+          <div class="card-body">
+            <a href="{% url 'job-details' job.pk %}">
+            <h5 class="card-title">{{job.title}}</h5>
+          </a>
+            <p class="card-text">Industry: {{job.industry}}</p>
+            <p class="card-text">Job Type: {{job.job_type}}</p>
+            <p class="card-text">Location: {{job.city}}, {{job.state}}</p>
+            <p class="card-text">Salary: {{job.salary}}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{job.timestamp|naturaltime}}</small>
+          </div>
+        </div>
+     
+      </div>
+        {% endfor %}
+    </div>
+
+-->
+
+    
+  <div class="tab-content">
+    {% for job in filter.qs %} 
+    <div id="tab-1" class="tab-pane fade show p-0 active">
+        <div class="job-item p-4 mb-4 card border-primary mb-3">
+            <div class="row g-4">
+                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                    <img class="flex-shrink-0 img-fluid border rounded" src="../static/img/ab2.jpg" alt="" style="width: 80px; height: 80px;">
+                    <div class="text-start ps-4">
+                        <h5 class="mb-3">{{job.title}}<small class="text-truncate"><i class="far fa-calendar-alt text-primary me-4"></i>({{job.job_type}})</small></h5>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.industry}}</span>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.city}}, {{job.state}}</span>
+                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.company }}</span>
+                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ job.salary|intcomma }} INR</span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                    <div class="d-flex mb-3">
+                        
+                        <a class="btn btn-primary" href="{% url 'job-details' job.pk %}">View Detail</a>
+                    </div>
+                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Create {{job.timestamp|naturaltime}}</small>
+                  
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    {% endfor %}
+    
+  </div>
+      <br>
+      <br>
+  
+     
+
+
+{% endblock content %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+
+{% block content %}
+
+
+
+<section>
+  <img src="../static/img/cover1.gif" alt="Description of the image" style="width: 100%; height: 300px;">
+    <div >
+
+      <div class="container-fluid py-5">
+        <h4 class="col-md-8 fs-5 mt-3">Get Hired Quickly! All Available Jobs Are Here</h4>
+      </div>
+    </div>
+  </section>
+  
+ <!-- 
+  
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% if jobs %}          
+    {% for job in jobs  %}  
+    <div class="col">
+      <div class="card border-primary mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{job.title}}</h5>
+          <h6 class="card-title"> Company : {{ job.company }}<small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>({{job.job_type}})</small></h6>
+          <p class="card-text">Location : {{job.city}}, {{job.state}}</p>
+          <p class="card-text">Salary: {{ job.salary|intcomma }}</p>
+          
+          <a class="btn btn-primary btn-sm" href="{% url 'job-details' job.pk %}">View Detail</a>
+        </div>
+        
+        <div class="card-footer">
+          <small class="text-muted">Create {{job.timestamp|naturaltime}}</small>
+        </div>
+       
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+  
+-->
+
+
+
+
+  
+  <div class="tab-content">
+    {% if jobs %}          
+    {% for job in jobs  %} 
+    <div id="tab-1" class="tab-pane fade show p-0 active">
+        <div class="job-item p-4 mb-4 card border-primary mb-3">
+            <div class="row g-4">
+                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                    <img class="flex-shrink-0 img-fluid border rounded" src="../static/img/ab2.jpg" alt="" style="width: 80px; height: 80px;">
+                    <div class="text-start ps-4">
+                        <h5 class="mb-3">{{job.title}}<small class="text-truncate"><i class="far fa-calendar-alt text-primary me-3"></i>({{job.job_type}})</small></h5>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.industry}}</span>
+                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.company }}</span>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.city}}, {{job.state}}</span>
+                        
+                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ job.salary|intcomma }}</span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                    <div class="d-flex mb-3">
+                        
+                        <a class="btn btn-primary" href="{% url 'job-details' job.pk %}">View Detail</a>
+                    </div>
+                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Create {{job.timestamp|naturaltime}}</small>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+
+
+  
+  <br>
+  <br>
+
+
+
+
+
+
+{% endblock content %}
+
+

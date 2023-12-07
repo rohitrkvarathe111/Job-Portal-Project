@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% block content %}
+
+<section>
+    <div class="p-5 mb-2 bg-light rounded-3">
+      <div class="container-fluid py-3">
+        <h2 class="display-5 fw-bold">{{job.title}}</h2>
+        <p class="col-md-8 fs-5 mt-3">
+          {{job.city}}, {{job.state}} | INR {{job.salary|intcomma}}
+        </p>
+        <p>Job Type: {{job.job_type}}</P>
+        {% if has_applied == False %}
+        <a href="{% url 'apply-job' job.pk %}" class="btn btn-primary btn-lg">Apply Now</a>
+        {% else %}
+        <p><span class="text-danger">You are already applied for this job</span></p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  
+
+
+
+<div>
+    <section>
+        <h5> job Requirement </h5>
+        <p>{{job.requirements}}
+        </p>
+    </section>
+</div>
+<br>
+<div>
+    <section>
+        <h5> Ideal Candidate</h5>
+        <p>{{job.ideal_candidate}}
+        </p>
+    </section>
+</div>
+<br>
+
+
+
+
+<div class="card border-primary mb-3">
+<div class="card text-center">
+  <div class="card-header">
+    <h5 class="card-title">About the Company</h5>
+  </div>
+  <div class="card-body">
+    
+    <p class="card-text"> Company Name:
+      {{job.company.name}}
+    </p>
+    <p class="card-text">CIN No.:
+      {{job.company.est_date}}
+    </p>
+    <p class="card-text">Location:
+      {{job.company.city}} {{job.company.state}}
+    </p>
+
+    <a href="#" class="btn btn-primary">Canect with us</a>
+  </div>
+
+</div>
+</div>
+<br>
+
+{% endblock content %}
+
+
+

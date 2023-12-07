@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao@Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #e4f1fe;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Add any additional styles as needed */
+    </style>
+    <title>Job Portal</title>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container-fluid">
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+                <h1 class="navbar-brand">Job Portal</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                {% if request.user.is_authenticated %}
+                {% if request.user.is_applicant %}
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                    </li>
+                    {% if request.user.has_resume %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'job-listing' %}">Apply To Jobs</a>
+                    </li>
+                    
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'update-resume' %}">create Resume</a>
+                    </li>
+                    {% endif %}
+   
+                </ul>
+
+                                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info">{{request.user.email}} 👤</button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                        <li><a class="nav-link" href="{% url 'update-resume' %}" tabindex="-1" aria-disabled="true">Update Profile</a></li>
+                        <li><a class="nav-link" aria-current="page" href="{% url 'applied-jobs' %}">Manage Job Applications</a></li>
+                        <li><a class="nav-link" aria-current="page" href="{% url 'reset_password' %}">Change Password</a></li>
+                        
+                        <li><a href="{% url 'logout' %}" class="btn btn-warning btn-sm d-flex justify-content-center">LogOut </a></li>
+                        </ul>
+                    </div>
+
+                                
+                
+
+                {% elif request.user.is_recruiter %}
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                    </li>
+                    {% if request.user.has_company %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'create-job' %}">create Job Ads</a>
+                        </li>
+<!---------------->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage-job' %}">Manage Jobs</a>
+                        </li>
+
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'update-company' %}">Create Company</a>
+                        </li>
+                    {% endif %}
+
+                    
+                </ul>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info">{{request.user.email}} 👤</button>
+                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'update-company' %}" tabindex="-1" aria-disabled="true">Update Company</a></li>
+                    <li><a class="nav-link" aria-current="page" href="{% url 'manage-job' %}">Manage Job</a></li>
+                    <li><a class="nav-link" aria-current="page" href="{% url 'reset_password' %}">Change Password</a></li>
+                    
+                    <li><a href="{% url 'logout' %}" class="btn btn-warning btn-sm d-flex justify-content-center">LogOut </a></li>
+                    </ul>
+                </div>
+                
+
+                {% endif %}
+                {% else %}
+                     
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'job-listing' %}">ALL Jobs</a>
+                    </li>
+              
+                </ul>
+
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info"><a href="{% url 'login' %}">Login & Signup </a></button>
+                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li><a class="nav-link" aria-current="page" href="{% url 'job-listing' %}">All Job List</a> </li>
+                    <li><a class="nav-link" aria-current="page" href="{% url 'reset_password' %}">Forget Password</a></li>
+                    
+                    <li><a href="{% url 'login' %}" class="btn btn-warning btn-sm d-flex justify-content-center">Log In </a></li>
+                    </ul>
+                </div>
+                
+                
+                {% endif %}
+                
+
+            </div>
+            
+            {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'logout' %}" class="btn btn-info btn-sm d-flex justify-content-center">LogOut </a>
+            {% endif %}
+
+        </div>
+    </nav>
+</body>
+</html>
+
+
+<!-- some line misshere 200           ***************************************************************************************************-->
+        <br>
+        <br>
+        
+
+    <div class="container mt-5">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" role="alert">
+            <b>{{message}}</b>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+        
+
+        {% block content %}
+
+
+
+
+
+
+
+
+        {% endblock content %}
+
+
+        <br>
+        <br>
+    
+
+
+        <section class="footer">
+            <footer class="text-center text-white bg-primary">
+         
+              <div class="container p-4 pb-0">
+            
+                <section class="">
+                    <div class="card text-center">
+                        <div class="card-header">
+                          <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'about' %}">About</a>
+                              </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">Link</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">Hepl Center</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'contact' %}">Contact us</a>
+                              </li>
+                          </ul>
+                        </div>
+                      </div>
+                  <p class="d-flex justify-content-center align-items-center">
+    
+                
+                      
+                  </p>
+                  
+                </section>
+                
+              </div>
+
+              <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2023 
+                <a>.        .</a>
+                <a class="text-white" href="#">Job Portal LLC  </a>
+                <a>.        .</a>
+                <a class="text-white" href="#">Privacy Center</a>
+                <a>.        .</a>
+                <a class="text-white" href="#">Cookies</a>
+                <a>.        .</a>
+                <a class="text-white" href="#">Terms</a>   
+              </div>
+              
+          
+            </footer>
+         
+        </section>
+    <div>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up">↑</i></a>
+    </div>
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.8.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Mrcw6ZMFY1ZCLASNI+NtUVFsA7sXsP10y30Mp4YLEUNS FAP+3cxn/twtlaxVXM" crossorigin="anonymous"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQ10LX15..." ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVXIPHIC2..." crossorigin="anonymous"></script>
+</body>
+</html>

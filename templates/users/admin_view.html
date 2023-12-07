@@ -1,0 +1,68 @@
+<!-- users/templates/users/admin_view.html -->
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="text-center">ADMIN DASHBOARD</h1>
+
+<h3>Applicants</h3>
+  <table border="2" class="table table-hover table-responsive" style="width:100%">
+    <thead class="bg-dark text-white">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Email</th>
+        <th scope="col">Name</th>
+        
+        <th scope="col">Has Resume</th>
+        <th scope="col">Action</th>
+        
+      </tr>
+    </thead>
+    <tbody class="table table-primary">
+      {% for applicant in applicants %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ applicant.email }}</td>
+          <td>{{applicant.resume.first_name}} {{applicant.resume.last_name}} </td>
+        
+          <td>{{ applicant.has_resume }}</td>
+
+
+          <td> 
+            <a href="{% url 'delete-user' user_id=applicant.id %}">Delete</a>
+           
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Recruiters</h3>
+  <table border="2" class="table table-hover table-responsive" style="width:100%">
+    <thead class="bg-dark text-white">
+      <tr>
+        <th>No.</th>
+        <th>Email</th>
+        <th>Company Name</th>
+        <th>Company Location</th>
+        <th>CIN No. </th>
+        <th>Has company</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="table table-primary">
+      {% for recruiter in recruiters %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ recruiter.email }}</td>
+          <td>{{recruiter.company.name}}</td>
+          <td>{{recruiter.company.city}}, {{recruiter.company.state}}</td>
+          <td>{{ recruiter.company.est_date }}</td>
+          <td>{{ recruiter.has_company }}</td>
+          <td>
+            <a href="{% url 'delete-user' user_id=recruiter.id %}">Delete</a>
+          
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
