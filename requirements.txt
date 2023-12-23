@@ -1,19 +1,11 @@
 
-DateTime==5.3
-
-defusedxml==0.8.0rc2
-Deprecated==1.2.14
-dj-database-url==0.5.0
 Django==4.0
-django-adminlte-3==0.1.6
-django-crispy-forms==2.1
+
 django-environ==0.8.1
 django-filter==23.4
 django-jalali==6.0.1
 django-widget-tweaks==1.4.8
 djangorestframework==3.14.0
-frozenlist==1.4.0
-gitdb==4.0.11
 humanize==4.9.0
 requests==2.31.0
 requests-file==1.5.1
